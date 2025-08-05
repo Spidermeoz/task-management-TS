@@ -4,6 +4,7 @@ import Task from "../models/tasks.models";
 import paginationHelper from "../../../helpers/pagination";
 import searchHelper from "../../../helpers/search";
 
+// [GET] /api/v1/tasks
 export const index = async (req: Request, res: Response) => {
   // Find
   interface Find {
@@ -54,6 +55,7 @@ export const index = async (req: Request, res: Response) => {
   res.json(tasks);
 };
 
+// [GET] /api/v1/tasks/detail/:id
 export const detail = async (req: Request, res: Response) => {
   const id = req.params.id;
 
@@ -65,6 +67,7 @@ export const detail = async (req: Request, res: Response) => {
   res.json(tasks);
 };
 
+// [PATCH] /api/v1/tasks/change-status/:id
 export const changeStatus = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
@@ -87,7 +90,44 @@ export const changeStatus = async (req: Request, res: Response) => {
     res.json({
       code: 400,
       message: "Không tồn tại",
-      errors: error
+      errors: error,
+    });
+  }
+};
+
+// [PATCH] /api/v1/tasks/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+  try {
+    const ids: string[] = req.body.ids;
+    const key: string = req.body.key;
+    const value: string[] = req.body.value;
+
+    switch (key) {
+      case "status":
+        await Task.updateMany(
+          {
+            _id: { $in: ids },
+          },
+          {
+            status: value,
+          }
+        );
+        res.json({
+          code: 200,
+          message: "Cập nhật trạng thái thành công",
+        });
+        break;
+
+      default:
+        res.json({
+          code: 400,
+          message: "Không tồn tại",
+        });
+    }
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Không tồn tại",
     });
   }
 };
