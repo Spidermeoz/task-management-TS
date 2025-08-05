@@ -5,7 +5,7 @@ import paginationHelper from "../../../helpers/pagination";
 import searchHelper from "../../../helpers/search";
 
 // [GET] /api/v1/tasks
-export const index = async (req: Request, res: Response) => {
+export const index = async (req: Request, res: Response): Promise<void> => {
   // Find
   interface Find {
     deleted: boolean;
@@ -56,7 +56,7 @@ export const index = async (req: Request, res: Response) => {
 };
 
 // [GET] /api/v1/tasks/detail/:id
-export const detail = async (req: Request, res: Response) => {
+export const detail = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id;
 
   const tasks = await Task.find({
@@ -68,7 +68,7 @@ export const detail = async (req: Request, res: Response) => {
 };
 
 // [PATCH] /api/v1/tasks/change-status/:id
-export const changeStatus = async (req: Request, res: Response) => {
+export const changeStatus = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
     const status = req.body.status;
@@ -96,7 +96,7 @@ export const changeStatus = async (req: Request, res: Response) => {
 };
 
 // [PATCH] /api/v1/tasks/change-multi
-export const changeMulti = async (req: Request, res: Response) => {
+export const changeMulti = async (req: Request, res: Response): Promise<void> => {
   try {
     enum Key {
       STATUS = "status",
@@ -154,7 +154,7 @@ export const changeMulti = async (req: Request, res: Response) => {
 };
 
 // [POST] /api/v1/tasks/create
-export const create = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const task = new Task(req.body);
     const data = await task.save();
@@ -173,7 +173,7 @@ export const create = async (req: Request, res: Response) => {
 };
 
 // [PATCH] /api/v1/tasks/edit/:id
-export const edit = async (req: Request, res: Response) => {
+export const edit = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
 
@@ -192,7 +192,7 @@ export const edit = async (req: Request, res: Response) => {
 };
 
 // [DELETE] /api/v1/tasks/delete/:id
-export const deleteTask = async (req: Request, res: Response) => {
+export const deleteTask = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
 

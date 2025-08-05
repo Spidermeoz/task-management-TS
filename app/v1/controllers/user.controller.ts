@@ -10,7 +10,7 @@ import {
 // import sendMailHelper from "../../../helpers/sendMail.js";
 
 // [POST] /api/v1/users/register
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response): Promise<void> => {
   req.body.password = md5(req.body.password);
 
   const existEmail = await User.findOne({
@@ -46,7 +46,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 // [POST] /api/v1/users/login
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<void> => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -81,18 +81,11 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
-// [GET] /api/v1/users/detail/:id
-export const detail = async (req: Request, res: Response) => {
-  const id = req.params.id
-
-  const user = await User.findOne({
-    _id: id,
-    deleted: false
-  }).select("-password -token")
-
+// [GET] /api/v1/users/detail
+export const detail = async (req: Request, res: Response): Promise<void> => {
   res.json({
     code: 200,
     message: "Thành công!",
-    info: user,
+    info: req["user"],
   });
 };

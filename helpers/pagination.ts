@@ -5,7 +5,7 @@ interface ObjectPagination {
   totalPages?: number
 }
 
-const paginationHelper = (objectPagination: ObjectPagination, query: Record<string, any>, countRecords: number) => {
+const paginationHelper = (objectPagination: ObjectPagination, query: Record<string, any>, countRecords: number): ObjectPagination => {
   if (query.page) {
     objectPagination.currentPage = parseInt(query.page);
   }
