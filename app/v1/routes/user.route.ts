@@ -8,4 +8,8 @@ router.post("/register", controller.register);
 
 router.post("/login", controller.login); // Thêm validate sau
 
+// router.get("/detail", authMiddleware.requireAuth, controller.detail);
+
+router.get("/detail/:id", controller.detail);
+
 export const userRoutes: Router = router;
