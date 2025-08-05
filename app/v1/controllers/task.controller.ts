@@ -7,9 +7,9 @@ import searchHelper from "../../../helpers/search";
 export const index = async (req: Request, res: Response) => {
   // Find
   interface Find {
-    deleted: boolean,
-    status?: string,
-    title?: RegExp
+    deleted: boolean;
+    status?: string;
+    title?: RegExp;
   }
   const find: Find = {
     deleted: false,
@@ -27,11 +27,11 @@ export const index = async (req: Request, res: Response) => {
   } // End Sort
 
   // Search
-    const objectSearch = searchHelper(req.query);
-  
-    if (objectSearch.keyword) {
-      find["title"] = objectSearch["regex"];
-    } // End search
+  const objectSearch = searchHelper(req.query);
+
+  if (objectSearch.keyword) {
+    find["title"] = objectSearch["regex"];
+  } // End search
 
   //Pagination
   let initPagination = {
@@ -63,4 +63,31 @@ export const detail = async (req: Request, res: Response) => {
   });
 
   res.json(tasks);
+};
+
+export const changeStatus = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const status = req.body.status;
+
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      }
+    );
+
+    res.json({
+      code: 200,
+      message: "Cập nhật trạng thái thành công",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Không tồn tại",
+      errors: error
+    });
+  }
 };
